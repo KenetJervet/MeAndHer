@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
-print 'Hello World'
-print 'Hello world again'
-print 'Test in Aptana Studio'
+import wx
+from my_frame import MyFrame
+
+app = wx.PySimpleApp(0)
+wx.InitAllImageHandlers()
+myFrame = MyFrame(None, -1, "")
+app.SetTopWindow(myFrame)
+myFrame.Show()
+app.MainLoop()
