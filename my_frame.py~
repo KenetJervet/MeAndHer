@@ -11,12 +11,14 @@ import wx
 class MyFrame(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: MyFrame.__init__
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.MAXIMIZE_BOX | wx.SYSTEM_MENU | wx.RESIZE_BORDER | wx.FRAME_TOOL_WINDOW | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         self.btnTest = wx.Button(self, -1, "Click Me")
 
         self.__set_properties()
         self.__do_layout()
+
+        self.Bind(wx.EVT_BUTTON, self.OnBtnTestClick, self.btnTest)
         # end wxGlade
 
     def __set_properties(self):
@@ -32,6 +34,10 @@ class MyFrame(wx.Frame):
         sizer_1.Fit(self)
         self.Layout()
         # end wxGlade
+
+    def OnBtnTestClick(self, event):  # wxGlade: MyFrame.<event_handler>
+        wx.MessageBox('Help me out.', 'Fuck', wx.OK+wx.CANCEL)
+        event.Skip()
 
 # end of class MyFrame
 if __name__ == "__main__":

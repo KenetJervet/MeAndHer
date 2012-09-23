@@ -11,14 +11,16 @@ import wx
 class MyFrame(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: MyFrame.__init__
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
+        kwds["style"] = wx.CAPTION | wx.CLOSE_BOX | wx.MINIMIZE_BOX | wx.MAXIMIZE_BOX | wx.SYSTEM_MENU | wx.RESIZE_BORDER | wx.FRAME_TOOL_WINDOW | wx.CLIP_CHILDREN
         wx.Frame.__init__(self, *args, **kwds)
         self.btnTest = wx.Button(self, -1, "Click Me")
+        self.btnDau = wx.Button(self, -1, "Show Handle Info")
 
         self.__set_properties()
         self.__do_layout()
 
         self.Bind(wx.EVT_BUTTON, self.OnBtnTestClick, self.btnTest)
+        self.Bind(wx.EVT_BUTTON, self.OnBtnDauClick, self.btnDau)
         # end wxGlade
 
     def __set_properties(self):
@@ -28,8 +30,9 @@ class MyFrame(wx.Frame):
 
     def __do_layout(self):
         # begin wxGlade: MyFrame.__do_layout
-        sizer_1 = wx.BoxSizer(wx.VERTICAL)
+        sizer_1 = wx.GridSizer(1, 2, 0, 0)
         sizer_1.Add(self.btnTest, 0, 0, 0)
+        sizer_1.Add(self.btnDau, 0, 0, 0)
         self.SetSizer(sizer_1)
         sizer_1.Fit(self)
         self.Layout()
@@ -38,6 +41,9 @@ class MyFrame(wx.Frame):
     def OnBtnTestClick(self, event):  # wxGlade: MyFrame.<event_handler>
         wx.MessageBox('Help me out.', 'Fuck', wx.OK+wx.CANCEL)
         event.Skip()
+
+    def OnBtnDauClick(self, event):  # wxGlade: MyFrame.<event_handler>
+        wx.MessageBox(str(self.GetHandle()), 'Fuck', wx.OK+wx.CANCEL)
 
 # end of class MyFrame
 if __name__ == "__main__":
