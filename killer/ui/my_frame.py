@@ -42,15 +42,36 @@ class MyFrame(wx.Frame):
 
     def OnBtnTestClick(self, event):  # wxGlade: MyFrame.<event_handler>
         from core.sys_env import SysEnv
-        wx.MessageBox(str(SysEnv.get_os()), 'Fuck', wx.OK+wx.CANCEL)
-        delete_module('core.module_handler')
+        wx.MessageBox(str(SysEnv.get_os()), 'Fuck', wx.OK + wx.CANCEL)
+        delete_module('core.sys_env')
         event.Skip()
 
     def OnBtnDauClick(self, event):  # wxGlade: MyFrame.<event_handler>
-        window_list = wnck.screen_get_default().get_windows()
-        if len(window_list) == 0:
-            wx.MessageBox("No window found", 'Info', wx.OK)
-        wx.MessageBox(str(self.GetHandle()), 'Fuck', wx.OK+wx.CANCEL)
+        import ctypes, re
+        import subprocess
+        from subprocess import call
+        d = ctypes.CDLL('./external/xwininfo.so')
+        window_id = d.getwindow_main();
+        wx.MessageBox(str(window_id), 'Window ID', wx.OK + wx.CANCEL)
+        
+        p = subprocess.Popen([
+                              'xprop',
+                              '_NET_WM_PID',
+                              '-id',
+                              str(window_id),
+                              ], stdout=subprocess.PIPE)
+        prepared_process_id = process_id = p.communicate()[0]
+        reg_matches = re.match(r'_NET_WM_PID\(CARDINAL\) = (\d+)', prepared_process_id)
+        if reg_matches:
+            process_id = reg_matches.group(1)
+            call(['kill', '-9', str(process_id)])
+        else:
+            wx.MessageBox('Internal error.', 'Process ID', wx.OK + wx.CANCEL)
+        
+        
+        delete_module('ctypes')
+        delete_module('re')
+        delete_module('subprocess')
         event.Skip()
 
 # end of class MyFrame
