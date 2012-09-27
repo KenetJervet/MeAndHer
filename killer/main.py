@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+# Started working on `master` branch
+
 import wx
 from ui.my_frame import MyFrame
 
